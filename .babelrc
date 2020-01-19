@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+          "targets": {
+            "chrome": "58",
+            "ie": "8"
+          },
+          "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/transform-runtime",
+      {
+        "helpers": true,
+        "useESModules": true,
+        "absoluteRuntime": true
+      }
+    ]
+  ]
+}
