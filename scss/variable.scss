@@ -1,4 +1,5 @@
 // grid
+$screen-size: xs, sm, md, lg;
 $screen-xs-max: 767px;
 $screen-sm-max: 991px;
 $screen-md-max: 1199px;
@@ -7,7 +8,7 @@ $screen-sm-min: 768px;
 $screen-md-min: 992px;
 $screen-lg-min: 1200px;
 
-$breakpoints: (
+$min-breakpoints: (
   sm: $screen-sm-min,
   md: $screen-md-min,
   lg: $screen-lg-min

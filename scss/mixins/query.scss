@@ -1,26 +1,14 @@
 @mixin query ($breakpoint, $css, $direction: 'min') {
-  $type: type-of($css);
-  @if type-of($breakpoint) == 'string' {
-    $breakpoint: map-get($breakpoints, $breakpoint);
-  }
   @media (#{$direction}-width: $breakpoint) {
-    @if $type == 'map' {
-      @each $key in map-keys($css) {
-        #{$key}: map-get($css, $key);
-      }
+    @each $key in map-keys($css) {
+      #{$key}: map-get($css, $key);
     }
   }
 }
 @mixin queryScope ($min, $max, $breakpoint) {
-  $type: type-of($css);
-  @if type-of($breakpoint) == 'string' {
-    $breakpoint: map-get($breakpoints, $breakpoint);
-  }
   @media (min-width: $min) and (max-width: $max) {
-    @if $type == 'map' {
-      @each $key in map-keys($css) {
-        #{$key}: map-get($css, $key);
-      }
+    @each $key in map-keys($css) {
+      #{$key}: map-get($css, $key);
     }
   }
 }
