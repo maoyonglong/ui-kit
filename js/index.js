@@ -1,6 +1,7 @@
-export default {
-  a: '1',
-  method () {
+import Range from './range'
+import Switch from './switch'
 
-  }
-}
+export default {
+  Range,
+  Switch
+};

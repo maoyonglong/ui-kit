@@ -1,6 +1,7 @@
 example/
 js/
 scss/
+test/
 .babelrc
 .eslintrc
 .stylelintrc

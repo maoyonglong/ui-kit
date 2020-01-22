@@ -13,9 +13,9 @@
   ],
   "plugins": [
     [
-      "@babel/transform-runtime",
+      "@babel/plugin-transform-runtime",
       {
-        "helpers": true,
+        "helpers": false,
         "useESModules": true,
         "absoluteRuntime": true
       }

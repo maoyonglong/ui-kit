@@ -21,8 +21,8 @@ $no-gutters: (
 
 %gutter {
   @include subProperties(padding, (
-    right: -15px,
-    left: -15px
+    right: 15px,
+    left: 15px
   ));
 }
 

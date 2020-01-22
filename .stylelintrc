@@ -21,6 +21,7 @@
       "right",
       "bottom",
       "left",
+      "content",
       "display",
       "flex-flow",
       "flex-direction",

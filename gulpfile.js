@@ -5,10 +5,13 @@ const gulpif = require('gulp-if')
 const uglify = require('gulp-uglify')
 const concat = require('gulp-concat')
 const clean = require('gulp-clean')
+const connect = require('gulp-connect')
 const { src, dest, parallel, series, watch } = require('gulp')
 
 const rollup = require('gulp-rollup')
 const babel = require('rollup-plugin-babel')
+const resolve = require('rollup-plugin-node-resolve')
+const commonjs = require('rollup-plugin-commonjs')
 
 const isProd = process.env.NODE_ENV.trim() == 'prod'
 
@@ -37,6 +40,12 @@ const tasks = {
   static: {
     src: ['example/static/**/*'],
     dest: 'dest/example/static'
+  },
+  connect: {
+    root: 'dest',
+    livereload: true,
+    port: 8888,
+    host: '0.0.0.0'
   }
 }
 
@@ -51,6 +60,7 @@ function compileScss () {
     .pipe(sass({ outputStyle: isProd ? 'compressed' : 'expanded' }))
     .pipe(rename(getRename(scss.rename)))
     .pipe(dest(scss.dest))
+    .pipe(connect.reload())
 }
 
 function compileJs () {
@@ -63,15 +73,18 @@ function compileJs () {
         format: 'iife',
         name: 'uiKit'
       },
+      external: ['lodash'],
       plugins: [
         babel({
-          runtimeHelpers: true
+          runtimeHelpers: true,
+          exclude: 'node_modules/**'
         })
       ]
     }))
     .pipe(rename(getRename(js.rename)))
     .pipe(gulpif(isProd, uglify()))
     .pipe(dest(js.dest))
+    .pipe(connect.reload())
 }
 
 function concatExample () {
@@ -79,30 +92,37 @@ function concatExample () {
   return src(exam.src)
     .pipe(concat('index.html'))
     .pipe(dest(exam.dest))
+    .pipe(connect.reload())
 }
 
 function cleanStatic () {
   return src(tasks.static.dest).pipe(clean())
 }
 
-function copystatic () {
+function copyStatic () {
   const static = tasks.static
-  return src(static.src).pipe(dest(static.dest))
+  return src(static.src).pipe(dest(static.dest)).pipe(connect.reload())
 }
 
-const example = parallel(series(cleanStatic, copystatic), concatExample)
+const example = parallel(series(cleanStatic, copyStatic), concatExample)
 
 function devWatch () {
-  watch('example/**/*', example)
+  watch(tasks.static.src, copyStatic)
+  watch(tasks.example.src, concatExample)
   watch(tasks.scss.src, compileScss)
   watch(tasks.js.src, compileJs)
+}
+
+function connectTask () {
+  connect.server(tasks.connect)
 }
 
 exports.compileScss = compileScss
 exports.compileJs = compileJs
 exports.cleanStatic = cleanStatic
-exports.copystatic = copystatic
+exports.copyStatic = copyStatic
 exports.concatExample = concatExample
 exports.example = example
+exports.connect = connectTask
 exports.default = parallel(compileScss, compileJs)
-exports.watch = devWatch
+exports.watch = parallel(connectTask, devWatch)
