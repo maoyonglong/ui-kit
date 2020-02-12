@@ -6,3 +6,23 @@
 .part h1, h3 {
   padding: 10px 0;
 }
+
+#notification-trigger {
+  display: inline-block;
+  padding: 10px 15px;
+  color: #fff;
+  background-color: #00bfff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notification-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.3rem;
+  font-style: normal;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #00bfff;
+}
